@@ -19,14 +19,17 @@
 
     <div id="viz"></div>
 <script>
-
         var sample_data = [
-    {"value": 100, "name": "alpha", "group": "group 1"},
-    {"value": 70, "name": "beta", "group": "group 2"},
-    {"value": 40, "name": "gamma", "group": "group 2"},
-    {"value": 15, "name": "delta", "group": "group 2"},
-    {"value": 5, "name": "epsilon", "group": "group 1"},
-    {"value": 1, "name": "zeta", "group": "group 1"}
+    {"value": 100, "name": "Légumes", "group": "migros"},
+    {"value": 15, "name": "Viande", "group": "migros"},
+    {"value": 5, "name": "Pâtes", "group": "migros"},
+    {"value": 70, "name": "Légumes", "group": "coop"},
+    {"value": 30, "name": "Viande", "group": "coop"},
+    {"value": 40, "name": "Vins", "group": "coop"},
+    {"value": 1, "name": "Pâtes", "group": "denner"},
+    {"value": 20, "name": "Vins", "group": "denner"},
+    {"value": 10, "name": "Légumes", "group": "denner"},
+    {"value": 5, "name": "Viande", "group": "denner"}
   ]
   var visualization = d3plus.viz()
     .container("#viz")
