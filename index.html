@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3plus.org/js/d3.js"></script>
+    <script src="https://d3plus.org/js/d3plus.js"></script>
+
     <style>
 		.chart div {
 		  font: 10px sans-serif;
@@ -14,33 +16,27 @@
 	</style>
 </head>
 <body>
-<section>
-    <p>this is a paragraph</p>
-    <div class="chart">
-    </div>
-</section>
+
+    <div id="viz"></div>
 <script>
-		d3.select("p").text("hello")
-		var body = d3.select("body");
-		var div = body.append("div");
-		div.html("Hello, world!");
 
-		var section = d3.selectAll("section");
-		var div = section.append("div");
-		div.html("Hello, section!");
+        var sample_data = [
+    {"value": 100, "name": "alpha", "group": "group 1"},
+    {"value": 70, "name": "beta", "group": "group 2"},
+    {"value": 40, "name": "gamma", "group": "group 2"},
+    {"value": 15, "name": "delta", "group": "group 2"},
+    {"value": 5, "name": "epsilon", "group": "group 1"},
+    {"value": 1, "name": "zeta", "group": "group 1"}
+  ]
+  var visualization = d3plus.viz()
+    .container("#viz")
+    .data(sample_data)
+    .type("tree_map")
+    .id(["group","name"])
+    .size("value")
+    .draw()
 
-		d3.select("body")
-			.style("color", "black")
-			.style("background-color", "blue");
 
-		d3.select(".chart")
-			.selectAll("div")
-				.data(data)
-		.enter().append("div")
-			.style("width", function(d) { return d * 10 + "px"; })
-				.text(function(d) { return d; });
-
-		var table = d3.csvParse(text);
 	</script>
 </body>
 </html>
