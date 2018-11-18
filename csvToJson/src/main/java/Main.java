@@ -6,10 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -108,22 +106,36 @@ public class Main {
 
     private static void toJsonFile(List<Map<String, String>> list) throws IOException {
         Map<String, Integer> l = new HashMap<>();
-        list.stream().forEach(o -> {
+        list.forEach(o -> {
             String m = o.get(Champs.PAYS.toString().toLowerCase());
-            //  if (m.contains(",")) {
             if (!l.containsKey(m)) {
                 l.put(m, 1);
             } else {
                 l.put(m, l.get(m) + 1);
             }
-            //  }
         });
+
+        list =  list.stream().filter(map -> {
+            String pays = map.get("pays");
+            Integer nbProduct = l.get(pays);
+            return l.get(pays) > 20;
+        }).collect(Collectors.toList());
+
         l.entrySet().stream().filter(o -> o.getValue() > 20).map(o -> o.getKey() + " " + o.getValue()).sorted(String::compareTo)
          .forEach(o -> System.out.println(o));
         File file = new File("data.json");
+       //    list = partition(list, 10).iterator().next();
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(file.getPath()))) {
             writer.write("var data = " + new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(list));
         }
+    }
+
+    private static <T> Collection<List<T>> partition(List<T> list, int size) {
+        final AtomicInteger counter = new AtomicInteger(0);
+
+        return list.stream()
+                   .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / size))
+                   .values();
     }
 
     private static int findIndexMax() {

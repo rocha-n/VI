@@ -86,13 +86,13 @@ function createLigneToHaveTheNutrition(props, list) {
     list.forEach((obj) => {
         let nutritionValues = ["a", "b", "c", "d", "e"];
         nutritionValues.forEach(value => {
-            let newObjet = {total: obj[value], nutrition: value};
-            props.forEach(prop => {
-                if (obj[value]) {
+            if (obj[value]) {
+                let newObjet = {total: obj[value], nutrition: value};
+                props.forEach(prop => {
                     newObjet[prop] = obj[prop];
-                }
-            });
-            newList.push(newObjet);
+                });
+                newList.push(newObjet);
+            }
         });
     });
     return newList;
