@@ -2,52 +2,37 @@
 <html lang="">
 
 <head>
-  <meta charset="utf-8">
-  <title></title>
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/main.css">
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
-<!-- Add your site or application content here -->
 <div id="viz"></div>
-<script src="js/data.json"></script>
 
-<!--<script src="js/plugins.js"></script>-->
+<script src="js/data.json"></script>
 <script src="js/main.js"></script>
-<<script src="js/vendor/d3.js"></script>
+<script src="js/vendor/d3.js"></script>
 <script src="js/vendor/d3plus.full.js"></script>
 <!--
 <script src="https://d3plus.org/js/d3.js"></script>
 <script src="https://d3plus.org/js/d3plus.js"></script>-->
 
-<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 <script>
-  let sample_data = [
-    {"value": 100, "name": "alpha", "group": "group 1"},
-    {"value": 70, "name": "beta", "group": "group 2"},
-    {"value": 40, "name": "gamma", "group": "group 2"},
-    {"value": 15, "name": "delta", "group": "group 2"},
-    {"value": 5, "name": "epsilon", "group": "group 1"},
-    {"value": 1, "name": "zeta", "group": "group 1"}
-  ];
- /* let visualization = d3plus.viz()
-    .container("#viz")
-    .data(list)
-    .type("tree_map")
-    .id(["marque"])
-    .size("total")
-    .draw();
-*/
-console.log(list2)
-   let visualization = d3plus.viz()
-    .container("#viz")
-    .data(list2)
-    .type("tree_map")
-    .id(["marque","nutrition"])
-    .size("total")
-    .draw();
-
+    let prop = "pays";
+    list = filtreParNombreDeProduit(groupByAndCountNutrition(prop, data), 50);
+    list = createLigneToHaveTwoDimention(prop, "a", list);
+    //list = filtrePourLesNutritiomAndComputPourcentage(prop, "a", list);
+    console.log(list);
+    let visualization = d3plus.viz()
+        .container("#viz")
+        .data(list)
+        .type("tree_map")
+        .id([prop, "nutrition"])
+        //.depth(2)
+        .size("total")
+        .draw();
 
 
 </script>
