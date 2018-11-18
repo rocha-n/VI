@@ -20,21 +20,19 @@
 <script src="https://d3plus.org/js/d3plus.js"></script>-->
 
 <script>
-    let prop = "pays";
-    list = filtreParNombreDeProduit(groupByAndCountNutrition(prop, data), 50);
-    list = createLigneToHaveTwoDimention(prop, "a", list);
-    //list = filtrePourLesNutritiomAndComputPourcentage(prop, "a", list);
+    let props = ["pays", "marque"];
+    list = filtreParNombreDeProduit(groupByAndCountNutrition(["pays", "marque"], data), 50);
+    list = createLigneToHaveTheNutrition(props, list);
+  //  list = filtrePourLesNutritiomAndComputPourcentage(props, "a", list);
     console.log(list);
     let visualization = d3plus.viz()
         .container("#viz")
         .data(list)
         .type("tree_map")
-        .id([prop, "nutrition"])
-        //.depth(2)
+        .id(["pays","marque", "nutrition"])
+        // .depth(3)
         .size("total")
         .draw();
-
-
 </script>
 </body>
 

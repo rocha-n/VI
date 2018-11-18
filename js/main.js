@@ -4,12 +4,17 @@
  * @param list La liste des produits
  * @returns Une nouvelle liste qui contient le nom du champs que l'on à donné et des infos sur les nutritions.
  */
-function groupByAndCountNutrition(prop, list) {
+function groupByAndCountNutrition(props, list) {
     let newList = list.reduce((group, item) => {
-        const val = (item[prop] + "").toUpperCase();
+        const val = props.reduce((key, prop) => {
+            return key + item[prop]
+        }, "").toUpperCase();
+
         if (!group.get(val)) {
             let objet = {total: 0};
-            objet[prop] = val;
+            props.forEach(prop => {
+                objet[prop] = item[prop];
+            });
             group.set(val, objet);
         }
         let nutritionValues = ["a", "b", "c", "d", "e"];
@@ -25,7 +30,7 @@ function groupByAndCountNutrition(prop, list) {
         });
         return group;
     }, new Map());
-    return Array.from(newList.values()).sort((a, b) => a[prop].localeCompare(b[prop]));
+    return Array.from(newList.values()).sort((a, b) => a[props[0]].localeCompare(b[props[0]]));
 }
 
 /**
@@ -51,14 +56,18 @@ function filtreParNombreDeProduit(list, nombreDeProduit) {
  * @param nutrition La nutrition que l'on veut filtrer
  * @param list La liste que l'on veut filtrer
  */
-function filtrePourLesNutritiomAndComputPourcentage(prop, nutrition, list) {
+function filtrePourLesNutritiomAndComputPourcentage(props, nutrition, list) {
     let newList = [];
     list.forEach((obj) => {
         let nutritionValues = ["a", "b", "c", "d", "e"];
         nutritionValues.forEach(value => {
-            if (value === nutrition) {
-                let newObjet = {total: ((obj.a / obj.total) * 100)};
-                newObjet[prop] = obj[prop];
+            if (value === nutrition && obj[nutrition]) {
+                let newObjet = {total: ((obj[nutrition] / obj.total) * 100)};
+                props.forEach(prop => {
+                    if (obj[value]) {
+                        newObjet[prop] = obj[prop];
+                    }
+                });
                 newList.push(newObjet);
             }
         });
@@ -72,16 +81,18 @@ function filtrePourLesNutritiomAndComputPourcentage(prop, nutrition, list) {
  * @param prop Le nom du champ que l'on vas utiliser pour le groupement de la liste
  * @returns {Array} La liste pour 3dplus
  */
-function createLigneToHaveTwoDimention(prop) {
+function createLigneToHaveTheNutrition(props, list) {
     let newList = [];
     list.forEach((obj) => {
         let nutritionValues = ["a", "b", "c", "d", "e"];
         nutritionValues.forEach(value => {
-            if (obj[value]) {
-                let newObjet = {total: obj[value], nutrition: value};
-                newObjet[prop] = obj[prop];
-                newList.push(newObjet);
-            }
+            let newObjet = {total: obj[value], nutrition: value};
+            props.forEach(prop => {
+                if (obj[value]) {
+                    newObjet[prop] = obj[prop];
+                }
+            });
+            newList.push(newObjet);
         });
     });
     return newList;
