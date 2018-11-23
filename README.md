@@ -3,6 +3,8 @@ HES-SO: Visualisation de l'information
 
 This is a team project required by the VI module in the context of the master at HES-SO
 
+**==> Link for the current deployment:** [https://rocha-n.github.io/VI/](https://rocha-n.github.io/VI/)
+
 ## Index
 [Main idea and message](#main-idea-and-message)  
 [Visualisation](#visualisation)  
