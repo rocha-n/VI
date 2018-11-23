@@ -9,3 +9,9 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.body.style.backgroundColor = "white";
 }
+
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function firstLevel() {
+  document.getElementById("firstLevel").classList.toggle("show");
+}
