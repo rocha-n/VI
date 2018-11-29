@@ -77,6 +77,8 @@
     function creatStats(forGroup, parPourcentageNutriscor, nutritionScore) {
 
         let list = filtreParNombreDeProduit(groupByAndCountNutrition(["pays", "marque"], data), 20);
+        console.log(list)
+
         // list = createLigneToHaveTheNutrition(props, list);
         if (parPourcentageNutriscor) {
             forGroup = ["pays", "marque"]
@@ -86,6 +88,7 @@
             list = filtreParNombreDeProduit(groupByAndCountNutrition(forGroup, data), 50);
         }
 
+
         $("#viz").empty()
 
         let height = document.getElementById("attribution").offsetHeight
@@ -93,10 +96,10 @@
             .container("#viz")
             .data(list)
             .type("tree_map")
-           // .type("bar")
-           // .x("pays")
-           // .y("total")
-                .id(forGroup)
+            // .type("bar")
+            // .x("pays")
+            // .y("total")
+            .id(forGroup)
             .height(window.innerHeight - (height + 20))
             //.title("Titles and Footers Example")
             //.type({"mode": "slice-dice"})
@@ -123,10 +126,10 @@
         $("input[name='pourcentate']").click(e => {
             parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true"
             creatStats(forGroup, parPourcentageNutriscor, 'a');
-            if(parPourcentageNutriscor) {
+            if (parPourcentageNutriscor) {
                 $("#thirdLevel").hide();
                 $("#nutritionScore").show();
-            }else {
+            } else {
                 $("#thirdLevel").show();
                 $("#nutritionScore").hide();
             }
@@ -137,9 +140,18 @@
             creatStats(forGroup, parPourcentageNutriscor, nutritionScore);
         })
         // $($("#firstLevel").children).clear()
+
+        let pourcentage = $("input[name='pourcentate']:checked").val() === "true"
+        if (pourcentage) {
+            $("#thirdLevel").hide();
+            $("#nutritionScore").show();
+        } else {
+            $("#thirdLevel").show();
+            $("#nutritionScore").hide();
+        }
+        creatStats(["pays", "marque"], pourcentage, $("#nutritionScore select").find(":selected").val())
     });
 
-    creatStats(["pays", "marque"],  false)
 </script>
 </body>
 
