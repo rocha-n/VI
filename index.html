@@ -76,7 +76,7 @@
 <script>
     function creatStats(forGroup, parPourcentageNutriscor, nutritionScore) {
 
-        let list = filtreParNombreDeProduit(groupByAndCountNutrition(["pays", "marque"], data), 50);
+        let list = filtreParNombreDeProduit(groupByAndCountNutrition(["pays", "marque"], data), 20);
         // list = createLigneToHaveTheNutrition(props, list);
         if (parPourcentageNutriscor) {
             forGroup = ["pays", "marque"]
@@ -87,21 +87,33 @@
         }
 
         $("#viz").empty()
+
         let height = document.getElementById("attribution").offsetHeight
         let visualization = d3plus.viz()
             .container("#viz")
             .data(list)
             .type("tree_map")
-            .id(forGroup)
+           // .type("bar")
+           // .x("pays")
+           // .y("total")
+                .id(forGroup)
             .height(window.innerHeight - (height + 20))
             //.title("Titles and Footers Example")
             //.type({"mode": "slice-dice"})
             .title({
-                "sub": "Subtitles are smaller than titles.",
+                "sub": "",
                 "total": true
             })
+            /*.mouse({
+                "move": true,                        // key will also take custom function
+                "click": function (data, instance) {
+                    console.log(data);
+                    instance.zoom(true);
+                }
+            })*/
             // .depth(3)
             .size("total")
+            //.labels({"align": "left", "valign": "top"})
             .draw();
     }
 
