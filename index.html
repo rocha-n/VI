@@ -9,23 +9,23 @@
 
 <body>
 
-    <div id="mySidenav" class="sidenav">
-        <div class="description">Choose map</div>
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">Per Country</a>
-        <a href="#">Per Brand</a>
-        <a href="#">Per Nutriscore</a>
-    </div>
-    <!-- Use any element to open the sidenav -->
-    <div id="attribution">
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; menu</span>
-        <span class="attribution">Data used to generate the graph is provided by
+<div class="sidenav" id="mySidenav">
+    <div class="description">Choose map</div>
+    <a class="closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
+    <a href="#">Per Country</a>
+    <a href="#">Per Brand</a>
+    <a href="#">Per Nutriscore</a>
+</div>
+<!-- Use any element to open the sidenav -->
+<div id="attribution">
+    <span onclick="openNav()" style="font-size:30px;cursor:pointer">&#9776; menu</span>
+    <span class="attribution">Data used to generate the graph is provided by
             <a href="https://openfoodfacts.org">Open Food Facts</a>
         and is licensed under <a href="https://opendatacommons.org/licenses/odbl/1.0/">ODbL v1.0</a> </span>
-    </div>
+</div>
 
 
-    <div id="viz"></div>
+<div id="viz"></div>
 
 <script src="js/data.json"></script>
 <script src="js/main.js"></script>
@@ -37,16 +37,36 @@
 <script src="https://d3plus.org/js/d3plus.js"></script>-->
 
 <script>
-    let props = ["pays", "marque"];
-    list = filtreParNombreDeProduit(groupByAndCountNutrition(["pays", "marque"], data), 50);
-    list = createLigneToHaveTheNutrition(props, list);
-  //  list = filtrePourLesNutritiomAndComputPourcentage(props, "a", list);
-    console.log(list);
+    let parPourcentageNutriscor = true;
+    let forGroup = ["pays", "marque"];
+    let list = filtreParNombreDeProduit(groupByAndCountNutrition(["pays", "marque"], data), 50);
+    // list = createLigneToHaveTheNutrition(props, list);
+    if (parPourcentageNutriscor) {
+        forGroup = ["pays", "marque"]
+        list = filtrePourLesNutritiomAndComputPourcentage(forGroup, "a", list);
+    } else {
+        forGroup = ["pays", "nutrition", "marque"]
+    }
     let visualization = d3plus.viz()
         .container("#viz")
         .data(list)
         .type("tree_map")
-        .id(["pays", "nutrition","marque"])
+        .id(forGroup)
+        .height(window.innerHeight - 80)
+        .title("Titles and Footers Example")
+        //.type({"mode": "slice-dice"})
+        .title({
+            "sub": "Subtitles are smaller than titles.",
+            "total": true
+        })
+        .mouse({
+            "move": true,                        // key will also take custom function
+            "click": function (data, instance) {
+                console.log(data);
+                instance.zoom(true);
+            }
+        })
+
         // .depth(3)
         .size("total")
         .draw();
