@@ -10,11 +10,47 @@
 <body>
 
 <div class="sidenav" id="mySidenav">
-    <div class="description">Choose map</div>
     <a class="closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
-    <a href="#">Per Country</a>
-    <a href="#">Per Brand</a>
-    <a href="#">Per Nutriscore</a>
+    <div>
+        <div class="radioClass">
+            <input checked="checked" name="pourcentate" type="radio" value="false"/> Quantité <br/>
+            <input name="pourcentate" type="radio" value="true"/> Pourcentage
+        </div>
+        <br/>
+    </div>
+    <div id="firstLevel">
+        <span>First Level</span>
+        <div class="dropdown-content">
+            <a href="#country" id="pays"> Country</a>
+            <a href="#nutriscore" id="nutriscore">Nutriscore</a>
+            <a href="#brand" id="brand">Brand</a>
+        </div>
+    </div>
+    <div id="secondLevel">
+        <span onclick="secondLevel()">Second Level</span>
+        <div class="dropdown-content">
+            <a href="#country">Country</a>
+            <a href="#nutriscore">Nutriscore</a>
+            <a href="#brand">Brand</a>
+        </div>
+    </div>
+    <div id="thirdLevel">
+        <span onclick="thirdLevel()">Third Level</span>
+        <div class="dropdown-content">
+            <a href="#country">Country</a>
+            <a href="#nutriscore">Nutriscore</a>
+            <a href="#brand">Brand</a>
+        </div>
+    </div>
+    <div id="nutritionScore" style="display: none">
+        <select name="nutritionScore">
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="c">C</option>
+            <option value="d">D</option>
+            <option value="e">E</option>
+        </select>
+    </div>
 </div>
 <!-- Use any element to open the sidenav -->
 <div id="attribution">
@@ -32,44 +68,66 @@
 <script src="js/menu.js"></script>
 <script src="js/vendor/d3.js"></script>
 <script src="js/vendor/d3plus.full.js"></script>
+<script src="js/vendor/jquery-3.3.1.min.js"></script>
 <!--
 <script src="https://d3plus.org/js/d3.js"></script>
 <script src="https://d3plus.org/js/d3plus.js"></script>-->
 
 <script>
-    let parPourcentageNutriscor = true;
-    let forGroup = ["pays", "marque"];
-    let list = filtreParNombreDeProduit(groupByAndCountNutrition(["pays", "marque"], data), 50);
-    // list = createLigneToHaveTheNutrition(props, list);
-    if (parPourcentageNutriscor) {
-        forGroup = ["pays", "marque"]
-        list = filtrePourLesNutritiomAndComputPourcentage(forGroup, "a", list);
-    } else {
-        forGroup = ["pays", "nutrition", "marque"]
-    }
-    let visualization = d3plus.viz()
-        .container("#viz")
-        .data(list)
-        .type("tree_map")
-        .id(forGroup)
-        .height(window.innerHeight - 80)
-        .title("Titles and Footers Example")
-        //.type({"mode": "slice-dice"})
-        .title({
-            "sub": "Subtitles are smaller than titles.",
-            "total": true
-        })
-        .mouse({
-            "move": true,                        // key will also take custom function
-            "click": function (data, instance) {
-                console.log(data);
-                instance.zoom(true);
-            }
-        })
+    function creatStats(forGroup, parPourcentageNutriscor, nutritionScore) {
 
-        // .depth(3)
-        .size("total")
-        .draw();
+        let list = filtreParNombreDeProduit(groupByAndCountNutrition(["pays", "marque"], data), 50);
+        // list = createLigneToHaveTheNutrition(props, list);
+        if (parPourcentageNutriscor) {
+            forGroup = ["pays", "marque"]
+            list = filtrePourLesNutritiomAndComputPourcentage(forGroup, nutritionScore, list);
+        } else {
+            forGroup = ["pays", "nutrition", "marque"]
+            list = filtreParNombreDeProduit(groupByAndCountNutrition(forGroup, data), 50);
+        }
+
+        $("#viz").empty()
+        let height = document.getElementById("attribution").offsetHeight
+        let visualization = d3plus.viz()
+            .container("#viz")
+            .data(list)
+            .type("tree_map")
+            .id(forGroup)
+            .height(window.innerHeight - (height + 20))
+            //.title("Titles and Footers Example")
+            //.type({"mode": "slice-dice"})
+            .title({
+                "sub": "Subtitles are smaller than titles.",
+                "total": true
+            })
+            // .depth(3)
+            .size("total")
+            .draw();
+    }
+
+    let forGroup = ["pays", "marque"]
+    $(document).ready(function () {
+        let parPourcentageNutriscor = false;
+        $("input[name='pourcentate']").click(e => {
+            parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true"
+            creatStats(forGroup, parPourcentageNutriscor, 'a');
+            if(parPourcentageNutriscor) {
+                $("#thirdLevel").hide();
+                $("#nutritionScore").show();
+            }else {
+                $("#thirdLevel").show();
+                $("#nutritionScore").hide();
+            }
+        });
+
+        $("#nutritionScore select").on("change", e => {
+            let nutritionScore = $(this).find(":selected").val();
+            creatStats(forGroup, parPourcentageNutriscor, nutritionScore);
+        })
+        // $($("#firstLevel").children).clear()
+    });
+
+    creatStats(["pays", "marque"],  false)
 </script>
 </body>
 

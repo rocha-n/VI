@@ -49,6 +49,16 @@ function filtreParNombreDeProduit(list, nombreDeProduit) {
     return newList;
 }
 
+function filtreParQuantiteDeProduit(list,quantite) {
+    let newList = [];
+    list.forEach((obj) => {
+      if(obj.total<=quantite){
+          newList.push(obj);
+      }
+    });
+    return newList;
+}
+
 /**
  * Permet de filtrer la liste des nutrition et de calculer le pourcentage.
  *
