@@ -36,13 +36,16 @@ There are three main dimensions that are left to user choice: Country, make, and
 ## Visualisation
 
 The user will be presented with this interface:  
-<!--le menu à gauche répond au pattern sandwich-hamburger -->
+<!--le menu à gauche répond au pattern hamburger -->
 
 ![Main Screen](mockups/VI.png)
 
-The left part of the screen will allow him to chose the values of the X and Y axes, as well as the type of graphic (scatterplot or treemap). A click on the `Refresh` button will calculate and display the view according the chosen parameters
+The main part of the screen is occupied by a Treemap visualisation.  
+It will display one of the three main dimensions. Each time the user selects one tile of the Treemap, the visualisation will change, as it will take the user's choice as a filter. It will then display another dimension to which the previously created filter has been applied. As there are three dimensions, the user will be able to go down three levels.  
 
+On the left portion of the screen, a menu, obeing to the so-called _hamburger pattern_, will allow the user to set manually  the three dimensions with a drop-down menu. It will also be able to select if the values displayed are finite quantities or percent. Also, there is a `Back` button at the top of the menu to enable the user to go back one level in its filters.
 
+On the top of the screen, there is a banner indicating where the visualised data comes from, so the user can visit the source website and, if wanted, to collaborate on populating the database.
 
 ## Repository structure
 - data folder
