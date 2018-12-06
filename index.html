@@ -19,8 +19,8 @@
         <br/>
     </div>
     <div id="firstLevel">
-        <span>First Level</span>
-        <div class="dropdown-content">
+        <span onclick="firstLevel()">First Level</span>
+        <div class="dropdown-content" id="drop1">
             <a href="#country" id="pays"> Country</a>
             <a href="#nutriscore" id="nutriscore">Nutriscore</a>
             <a href="#brand" id="brand">Brand</a>
@@ -28,7 +28,7 @@
     </div>
     <div id="secondLevel">
         <span onclick="secondLevel()">Second Level</span>
-        <div class="dropdown-content">
+        <div class="dropdown-content" id="drop2">
             <a href="#country">Country</a>
             <a href="#nutriscore">Nutriscore</a>
             <a href="#brand">Brand</a>
@@ -36,7 +36,7 @@
     </div>
     <div id="thirdLevel">
         <span onclick="thirdLevel()">Third Level</span>
-        <div class="dropdown-content">
+        <div class="dropdown-content" id="drop3">
             <a href="#country">Country</a>
             <a href="#nutriscore">Nutriscore</a>
             <a href="#brand">Brand</a>
@@ -63,6 +63,7 @@
 
 <div id="viz"></div>
 
+<script src="js/vendor/jquery-3.3.1.min.js"></script>
 <script src="js/data.json"></script>
 <script src="js/main.js"></script>
 <script src="js/menu.js"></script>
