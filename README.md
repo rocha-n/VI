@@ -10,7 +10,6 @@ This is a team project required by the VI module in the context of the master at
 [Usable dimensions for visualisation](#usable-dimensions-for-visualisation)
 [Available Data](#available-data)  
 [Visualisation](#visualisation)  
-[Repository Structure](#repository-structure)  
 
 ## Main idea and message
 Nowadays, we have such a enourmous offer on alimentation products that it becomes quite easy to become submerged, and get tricked by  perfectly calibrated marketing appeal in choosing (mostly) the wrong ones.  
@@ -48,9 +47,3 @@ On the left portion of the screen, a menu, obeing to the so-called _hamburger pa
 
 On the top of the screen, there is a banner indicating where the visualised data comes from, so the user can visit the source website and, if wanted, to collaborate on populating the database.
 
-## Repository structure
-- data folder
-  - contains the datasets used for the application.  
-  We will start with a reduced one, and then use the full data file for release
-- mockups folder
-  - contains, well... mockups! Fair enough?
