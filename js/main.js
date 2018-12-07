@@ -49,12 +49,43 @@ function filtreParNombreDeProduit(list, nombreDeProduit) {
     return newList;
 }
 
-function filtreParQuantiteDeProduit(list,quantite) {
+
+function filtreParAttribut(list, filtres) {
     let newList = [];
+    list.forEach((value) => {
+        let ok = true;
+        filtres.forEach((filtre) => {
+            if (ok && value[filtre.attribut] != filtre.value) {
+                ok = false;
+            }
+        });
+        if (ok) {
+            newList.push(value);
+        }
+    });
+    return newList;
+}
+
+
+function filtreParAttriut(list, attribut, v) {
+    let newList = [];
+    list.forEach((value) => {
+        if (value[attribut] === v) {
+            newList.push(value);
+        }
+    });
+    return newList;
+}
+
+function filtreParQuantiteDeProduit(list, quantite) {
+    let newList = [];
+    if (quantite === 0) {
+        return list;
+    }
     list.forEach((obj) => {
-      if(obj.total<=quantite){
-          newList.push(obj);
-      }
+        if (obj.total <= quantite) {
+            newList.push(obj);
+        }
     });
     return newList;
 }
@@ -106,4 +137,9 @@ function createLigneToHaveTheNutrition(props, list) {
         });
     });
     return newList;
+}
+
+
+String.prototype.capitalize = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1)
 }
