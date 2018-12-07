@@ -45,32 +45,33 @@
         </div>
         <br/>
     </div>
-    <div id="firstLevel">
-        <span onclick="firstLevel()">First Level</span>
-        <div class="dropdown-content" id="drop1">
-            <a class="level country" href="#country" id="l1_country">Country</a>
-            <a class="level nutriscore" href="#nutriscore" id="l1_nutriscore">Nutriscore</a>
-            <a class="level brand" href="#brand" id="l1_brand">Brand</a>
+    <div id="menuFilters">
+        <div id="firstLevel">
+            <span onclick="firstLevel()">First Level</span>
+            <div class="dropdown-content" id="drop1">
+                <a class="level country" href="#country" id="l1_country">Country</a>
+                <a class="level nutriscore" href="#nutriscore" id="l1_nutriscore">Nutriscore</a>
+                <a class="level brand" href="#brand" id="l1_brand">Brand</a>
+            </div>
+        </div>
+        <div id="secondLevel">
+            <span onclick="secondLevel()">Second Level</span>
+            <div class="dropdown-content" id="drop2">
+                <a class="level country" href="#country" id="l2_country">Country</a>
+                <a class="level nutriscore" href="#nutriscore" id="l2_nutriscore">Nutriscore</a>
+                <a class="level brand" href="#brand" id="l2_brand">Brand</a>
+            </div>
+        </div>
+        <div id="thirdLevel">
+            <span>Third Level</span>
+            <div class="dropdown-content" id="drop3">
+                <a class="level country" href="#country" id="l3_country">Country</a>
+                <a class="level nutriscore" href="#nutriscore" id="l3_nutriscore">Nutriscore</a>
+                <a class="level brand" href="#brand" id="l3_brand">Brand</a>
+            </div>
+            <br/>
         </div>
     </div>
-    <div id="secondLevel">
-        <span onclick="secondLevel()">Second Level</span>
-        <div class="dropdown-content" id="drop2">
-            <a class="level country" href="#country" id="l2_country">Country</a>
-            <a class="level nutriscore" href="#nutriscore" id="l2_nutriscore">Nutriscore</a>
-            <a class="level brand" href="#brand" id="l2_brand">Brand</a>
-        </div>
-    </div>
-    <div id="thirdLevel">
-        <span>Third Level</span>
-        <div class="dropdown-content" id="drop3">
-            <a class="level country" href="#country" id="l3_country">Country</a>
-            <a class="level nutriscore" href="#nutriscore" id="l3_nutriscore">Nutriscore</a>
-            <a class="level brand" href="#brand" id="l3_brand">Brand</a>
-        </div>
-        <br/>
-    </div>
-
 </div>
 <!-- Use any element to open the sidenav -->
 <div id="attribution">
@@ -167,10 +168,24 @@
         }
     }
 
+    function resolveGroup(){
+        var forGroup = []
+        $("#menuFilters span").each((i, e) => {
+            if (e.id) {
+                forGroup.push(e.id)
+            }
+        })
+        return forGroup;
+    }
+
     $(document).ready(function () {
         let forGroupOriginale = ["pays", "nutrition", "marque"]
         let parPourcentageNutriscor = false;
 
+        $("#menuFilters a").on("click", (e) => {
+            $(e.target).parent().hide()
+
+        })
         $('#filter').on('click', '.filter', function (obj) {
             $("#filter").empty()
             parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true";
@@ -229,6 +244,9 @@
             $("#secondLevel ." + className).hide()
             $("#thirdLevel .level").show()
             $("#thirdLevel ." + className).hide()
+
+            let nutritionScore = $(this).find(":selected").val();
+            creatStats(resolveGroup(), parPourcentageNutriscor, nutritionScore, data, []);
         })
         $("#secondLevel .level").click(e => {
             $("#secondLevel span").text($(e.target).text())
@@ -241,11 +259,16 @@
             var aLevels = $("#thirdLevel a")
             aLevels.each((v, a) => {
                 var aClass = $(a).attr("class").split(" ")[1]
-                if(aClass != classNameSecond && aClass != classNameFirst){
+                if (aClass != classNameSecond && aClass != classNameFirst) {
                     $("#thirdLevel span").attr("id", aClass)
                     $("#thirdLevel span").text(aClass)
                 }
             })
+            $("#menuFilters span").each((i, e) => {
+                forGroup.push(e.id)
+            })
+            let nutritionScore = $(this).find(":selected").val();
+            creatStats(resolveGroup(), parPourcentageNutriscor, nutritionScore, data, []);
         })
         creatStats(["pays", "nutrition", "marque"], pourcentage, $("#nutritionScore select").find(":selected").val(), data, []);
     });

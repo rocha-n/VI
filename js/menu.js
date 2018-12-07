@@ -13,13 +13,18 @@ function closeNav() {
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function firstLevel() {
-  document.getElementById("drop1").classList.toggle("show");
+    $("#drop1").show()
+    //document.getElementById("drop1").classList.toggle("show");
+
 }
 
 function secondLevel() {
-  document.getElementById("drop2").classList.toggle("show");
+    $("#drop2").show()
+ // document.getElementById("drop2").classList.toggle("show");
 }
 
 function thirdLevel() {
-  document.getElementById("drop3").classList.toggle("show");
+    $("#drop3").show()
+ // document.getElementById("drop3").classList.toggle("show");
 }
+
