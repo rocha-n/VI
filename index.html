@@ -48,25 +48,25 @@
     <div id="firstLevel">
         <span onclick="firstLevel()">First Level</span>
         <div class="dropdown-content" id="drop1">
-            <a class="level country" href="#country" id="l1_country">Country</a>
+            <a class="level pays" href="#country" id="l1_country">Country</a>
             <a class="level nutriscore" href="#nutriscore" id="l1_nutriscore">Nutriscore</a>
-            <a class="level brand" href="#brand" id="l1_brand">Brand</a>
+            <a class="level marque" href="#brand" id="l1_brand">Brand</a>
         </div>
     </div>
     <div id="secondLevel">
         <span onclick="secondLevel()">Second Level</span>
         <div class="dropdown-content" id="drop2">
-            <a class="level country" href="#country" id="l2_country">Country</a>
+            <a class="level pays" href="#country" id="l2_country">Country</a>
             <a class="level nutriscore" href="#nutriscore" id="l2_nutriscore">Nutriscore</a>
-            <a class="level brand" href="#brand" id="l2_brand">Brand</a>
+            <a class="level marque" href="#brand" id="l2_brand">Brand</a>
         </div>
     </div>
     <div id="thirdLevel">
         <span>Third Level</span>
         <div class="dropdown-content" id="drop3">
-            <a class="level country" href="#country" id="l3_country">Country</a>
+            <a class="level pays" href="#country" id="l3_country">Country</a>
             <a class="level nutriscore" href="#nutriscore" id="l3_nutriscore">Nutriscore</a>
-            <a class="level brand" href="#brand" id="l3_brand">Brand</a>
+            <a class="level marque" href="#brand" id="l3_brand">Brand</a>
         </div>
         <br/>
     </div>
@@ -208,6 +208,23 @@
             $("#nutritionScore").hide();
         }
 
+        // Initialise elements
+        var aLevels = $("#firstLevel a")
+        firstClass = aLevels.get(0).className.split(" ")[1]
+        secondClass = aLevels.get(1).className.split(" ")[1]
+        thirdClass = aLevels.get(2).className.split(" ")[1]
+        $("#firstLevel span").attr("id", firstClass)
+        $("#secondLevel span").attr("id", secondClass)
+        $("#thirdLevel span").attr("id", thirdClass)
+
+        console.log("text: " + $(aLevels.get(0)).text())
+        $("#firstLevel span").text($(aLevels.get(0)).text())
+        $("#secondLevel span").text($(aLevels.get(1)).text())
+        $("#thirdLevel span").text($(aLevels.get(2)).text())
+
+        //$("#firstLevel span").text($(e.target).text())
+
+
         $("#firstLevel .level").click(e => {
             console.log($(e.target).text());
             console.log(e.target.id);
@@ -216,7 +233,6 @@
             var className = e.target.className.split(" ")[1]
             $("#firstLevel span").attr("id", className)
 
-            console.log(className);
             $("#secondLevel .level").show()
             $("#secondLevel ." + className).hide()
             $("#thirdLevel .level").show()
