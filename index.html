@@ -13,8 +13,35 @@
     <a class="closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
     <div>
         <div class="radioClass">
+            <div>Style de donées</div>
             <input checked="checked" name="pourcentate" type="radio" value="false"/> Quantité <br/>
             <input name="pourcentate" type="radio" value="true"/> Pourcentage
+        </div>
+
+        <div class="radioClass" id="nutritionScore" style="display: none">
+            <div>Nutrition score</div>
+            <select name="nutritionScore">
+                <option value="a">A</option>
+                <option value="b">B</option>
+                <option value="c">C</option>
+                <option value="d">D</option>
+                <option value="e">E</option>
+            </select>
+        </div>
+        <br/>
+    </div>
+    <div>
+        <div class="radioClass">
+            <div> Max de quantité de produit</div>
+            <input name="max" type="number" value=""/> <br/>
+        </div>
+        <br/>
+    </div>
+    <div>
+        <div class="radioClass">
+            <div>Style de graphique</div>
+            <input checked="checked" name="type" type="radio" value="tree_map"/> Tree map <br/>
+            <input name="type" type="radio" value="bar"/> Bar
         </div>
         <br/>
     </div>
@@ -41,16 +68,9 @@
             <a href="#nutriscore">Nutriscore</a>
             <a href="#brand">Brand</a>
         </div>
+        <br/>
     </div>
-    <div id="nutritionScore" style="display: none">
-        <select name="nutritionScore">
-            <option value="a">A</option>
-            <option value="b">B</option>
-            <option value="c">C</option>
-            <option value="d">D</option>
-            <option value="e">E</option>
-        </select>
-    </div>
+
 </div>
 <!-- Use any element to open the sidenav -->
 <div id="attribution">
@@ -60,7 +80,7 @@
         and is licensed under <a href="https://opendatacommons.org/licenses/odbl/1.0/">ODbL v1.0</a> </span>
 </div>
 
-
+<div id="filter" style="text-align: center"></div>
 <div id="viz"></div>
 
 <script src="js/vendor/jquery-3.3.1.min.js"></script>
@@ -75,58 +95,86 @@
 <script src="https://d3plus.org/js/d3plus.js"></script>-->
 
 <script>
-    function creatStats(forGroup, parPourcentageNutriscor, nutritionScore) {
-
-        let list = filtreParNombreDeProduit(groupByAndCountNutrition(["pays", "marque"], data), 20);
-        console.log(list)
-
-        // list = createLigneToHaveTheNutrition(props, list);
+    let dataOriginal = data
+    function creatStats(forGroup, parPourcentageNutriscor, nutritionScore, listeCourante, filtres) {
+        let max = $("input[name='max']").val() * 1
+        let list = []
+        let titre = "";
         if (parPourcentageNutriscor) {
-            forGroup = ["pays", "marque"]
+            forGroup = forGroup.filter(v => v !== "nutrition");
+            list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
+            titre = "Montre le nombre de pourcentage en fonction du nutriscore " + nutritionScore.toUpperCase();
             list = filtrePourLesNutritiomAndComputPourcentage(forGroup, nutritionScore, list);
         } else {
-            forGroup = ["pays", "nutrition", "marque"]
-            list = filtreParNombreDeProduit(groupByAndCountNutrition(forGroup, data), 50);
+            titre = "Montre le nombre de produit";
+            //forGroup = ["pays", "nutrition", "marque"]
+            list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
         }
-
-
         $("#viz").empty()
-
         let height = document.getElementById("attribution").offsetHeight
         let visualization = d3plus.viz()
             .container("#viz")
             .data(list)
-            .type("tree_map")
+            .type($("input[name='type']:checked").val())
             // .type("bar")
-            // .x("pays")
-            // .y("total")
+            .x(forGroup[0])
+            .y("total")
             .id(forGroup)
             .height(window.innerHeight - (height + 20))
-            //.title("Titles and Footers Example")
+            .title(titre)
             //.type({"mode": "slice-dice"})
             .title({
                 "sub": "",
-                "total": true
+                "total": !parPourcentageNutriscor
             })
-            /*.mouse({
-                "move": true,                        // key will also take custom function
-                "click": function (data, instance) {
-                    console.log(data);
-                    instance.zoom(true);
+            .format({
+                "number": function (number, params) {
+                    var formatted = d3plus.number.format(number, params);
+                    if (params.key === "total" && parPourcentageNutriscor) {
+                        return number.toFixed(2) + " %";
+                    } else {
+                        return formatted;
+                    }
                 }
-            })*/
+            })
+            .mouse({
+                "move": true,                        // key will also take custom function
+                "click": function (data1, instance) {
+                    if (forGroup.length > 1) {
+                        let filtreAttribut = forGroup.shift();
+                        filtres.push({attribut: filtreAttribut, value: data1[filtreAttribut]});
+                        let text = filtres.reduce((accumulator, currentValue) => {
+                            return accumulator + (accumulator.length > 0 ? " > " : "") + "<a class= 'filter' heref='#' id='" + currentValue.attribut + "'>" + currentValue.value.capitalize() + "</a>"
+                        }, "");
+                        $("#filter").html(text)
+
+                        let list = filtreParAttribut(data, filtres)
+                        creatStats(forGroup, parPourcentageNutriscor, nutritionScore, list, filtres)
+                    }
+                }
+            })
             // .depth(3)
             .size("total")
             //.labels({"align": "left", "valign": "top"})
             .draw();
     }
 
-    let forGroup = ["pays", "marque"]
     $(document).ready(function () {
+        let forGroupOriginale = ["pays", "nutrition", "marque"]
         let parPourcentageNutriscor = false;
+
+        $('#filter').on('click', '.filter', function (obj) {
+            $("#filter").empty()
+            parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true";
+            let nutritionScore = $("#nutritionScore select").find(":selected").val();
+            creatStats(["pays", "nutrition", "marque"], parPourcentageNutriscor, nutritionScore, data, []);
+        })
+
         $("input[name='pourcentate']").click(e => {
-            parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true"
-            creatStats(forGroup, parPourcentageNutriscor, 'a');
+            $("#filter").empty()
+            parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true";
+            let nutritionScore = $("#nutritionScore select").find(":selected").val();
+            creatStats(["pays", "nutrition", "marque"], parPourcentageNutriscor, nutritionScore, data, []);
             if (parPourcentageNutriscor) {
                 $("#thirdLevel").hide();
                 $("#nutritionScore").show();
@@ -138,9 +186,18 @@
 
         $("#nutritionScore select").on("change", e => {
             let nutritionScore = $(this).find(":selected").val();
-            creatStats(forGroup, parPourcentageNutriscor, nutritionScore);
+            creatStats(["pays", "nutrition", "marque"], parPourcentageNutriscor, nutritionScore, data, []);
         })
-        // $($("#firstLevel").children).clear()
+
+        $("input[name='type']").on("change", e => {
+            let nutritionScore = $(this).find(":selected").val();
+            creatStats(["pays", "nutrition", "marque"], parPourcentageNutriscor, nutritionScore, data, []);
+        })
+
+        $("input[name='max']").on("change", e => {
+            let nutritionScore = $(this).find(":selected").val();
+            creatStats(["pays", "nutrition", "marque"], parPourcentageNutriscor, nutritionScore, data, []);
+        })
 
         let pourcentage = $("input[name='pourcentate']:checked").val() === "true"
         if (pourcentage) {
@@ -150,7 +207,7 @@
             $("#thirdLevel").show();
             $("#nutritionScore").hide();
         }
-        creatStats(["pays", "marque"], pourcentage, $("#nutritionScore select").find(":selected").val())
+        creatStats(["pays", "nutrition", "marque"], pourcentage, $("#nutritionScore select").find(":selected").val(), data, []);
     });
 
 </script>
