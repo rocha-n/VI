@@ -46,27 +46,27 @@
         <br/>
     </div>
     <div id="firstLevel">
-        <span>First Level</span>
-        <div class="dropdown-content">
-            <a href="#country" id="pays"> Country</a>
-            <a href="#nutriscore" id="nutriscore">Nutriscore</a>
-            <a href="#brand" id="brand">Brand</a>
+        <span onclick="firstLevel()">First Level</span>
+        <div class="dropdown-content" id="drop1">
+            <a class="level country" href="#country" id="l1_country">Country</a>
+            <a class="level nutriscore" href="#nutriscore" id="l1_nutriscore">Nutriscore</a>
+            <a class="level brand" href="#brand" id="l1_brand">Brand</a>
         </div>
     </div>
     <div id="secondLevel">
         <span onclick="secondLevel()">Second Level</span>
-        <div class="dropdown-content">
-            <a href="#country">Country</a>
-            <a href="#nutriscore">Nutriscore</a>
-            <a href="#brand">Brand</a>
+        <div class="dropdown-content" id="drop2">
+            <a class="level country" href="#country" id="l2_country">Country</a>
+            <a class="level nutriscore" href="#nutriscore" id="l2_nutriscore">Nutriscore</a>
+            <a class="level brand" href="#brand" id="l2_brand">Brand</a>
         </div>
     </div>
     <div id="thirdLevel">
-        <span onclick="thirdLevel()">Third Level</span>
-        <div class="dropdown-content">
-            <a href="#country">Country</a>
-            <a href="#nutriscore">Nutriscore</a>
-            <a href="#brand">Brand</a>
+        <span>Third Level</span>
+        <div class="dropdown-content" id="drop3">
+            <a class="level country" href="#country" id="l3_country">Country</a>
+            <a class="level nutriscore" href="#nutriscore" id="l3_nutriscore">Nutriscore</a>
+            <a class="level brand" href="#brand" id="l3_brand">Brand</a>
         </div>
         <br/>
     </div>
@@ -83,6 +83,7 @@
 <div id="filter" style="text-align: center"></div>
 <div id="viz"></div>
 
+<script src="js/vendor/jquery-3.3.1.min.js"></script>
 <script src="js/data.json"></script>
 <script src="js/main.js"></script>
 <script src="js/menu.js"></script>
@@ -214,8 +215,41 @@
             $("#thirdLevel").show();
             $("#nutritionScore").hide();
         }
+
+        $("#firstLevel .level").click(e => {
+            console.log($(e.target).text());
+            console.log(e.target.id);
+            console.log(e.target.className);
+            $("#firstLevel span").text($(e.target).text())
+            var className = e.target.className.split(" ")[1]
+            $("#firstLevel span").attr("id", className)
+
+            console.log(className);
+            $("#secondLevel .level").show()
+            $("#secondLevel ." + className).hide()
+            $("#thirdLevel .level").show()
+            $("#thirdLevel ." + className).hide()
+        })
+        $("#secondLevel .level").click(e => {
+            $("#secondLevel span").text($(e.target).text())
+            var classNameSecond = e.target.className.split(" ")[1]
+            $("#secondLevel span").attr("id", classNameSecond)
+            var classNameFirst = $("#firstLevel span").attr("id")
+
+            $("#thirdLevel ." + classNameSecond).hide()
+            $("#thirdLevel ." + classNameFirst).hide()
+            var aLevels = $("#thirdLevel a")
+            aLevels.each((v, a) => {
+                var aClass = $(a).attr("class").split(" ")[1]
+                if(aClass != classNameSecond && aClass != classNameFirst){
+                    $("#thirdLevel span").attr("id", aClass)
+                    $("#thirdLevel span").text(aClass)
+                }
+            })
+        })
         creatStats(["pays", "nutrition", "marque"], pourcentage, $("#nutritionScore select").find(":selected").val(), data, []);
     });
+
 
 </script>
 </body>
