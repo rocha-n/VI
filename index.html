@@ -95,6 +95,7 @@
 
 <script>
     let dataOriginal = data
+
     function creatStats(forGroup, parPourcentageNutriscor, nutritionScore, listeCourante, filtres) {
         let max = $("input[name='max']").val() * 1
         let list = []
@@ -109,53 +110,60 @@
             //forGroup = ["pays", "nutrition", "marque"]
             list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
         }
-        $("#viz").empty()
-        let height = document.getElementById("attribution").offsetHeight
-        let visualization = d3plus.viz()
-            .container("#viz")
-            .data(list)
-            .type($("input[name='type']:checked").val())
-            // .type("bar")
-            .x(forGroup[0])
-            .y("total")
-            .id(forGroup)
-            .height(window.innerHeight - (height + 20))
-            .title(titre)
-            //.type({"mode": "slice-dice"})
-            .title({
-                "sub": "",
-                "total": !parPourcentageNutriscor
-            })
-            .format({
-                "number": function (number, params) {
-                    var formatted = d3plus.number.format(number, params);
-                    if (params.key === "total" && parPourcentageNutriscor) {
-                        return number.toFixed(2) + " %";
-                    } else {
-                        return formatted;
+        if (!parPourcentageNutriscor && list.length > 450) {
+            alert("Il y à trop données il n'est pas possible de les afficher")
+        } else {
+            $("#viz").empty()
+            let height = document.getElementById("attribution").offsetHeight
+            let visualization = d3plus.viz()
+                .container("#viz")
+                .data(list)
+                .type($("input[name='type']:checked").val())
+                // .type("bar")
+                .x(forGroup[0])
+                .y("total")
+                .id(forGroup)
+                .height(window.innerHeight - (height + 20))
+                .title(titre).order("total")
+                //.type({"mode": "slice-dice"})
+                .title({
+                    "sub": "",
+                    "total": !parPourcentageNutriscor
+                })
+                .format({
+                    "number": function (number, params) {
+                        var formatted = d3plus.number.format(number, params);
+                        if (params.key === "total" && parPourcentageNutriscor) {
+                            return number.toFixed(2) + " %";
+                        } else {
+                            return formatted;
+                        }
                     }
-                }
-            })
-            .mouse({
-                "move": true,                        // key will also take custom function
-                "click": function (data1, instance) {
-                    if (forGroup.length > 1) {
-                        let filtreAttribut = forGroup.shift();
-                        filtres.push({attribut: filtreAttribut, value: data1[filtreAttribut]});
-                        let text = filtres.reduce((accumulator, currentValue) => {
-                            return accumulator + (accumulator.length > 0 ? " > " : "") + "<a class= 'filter' heref='#' id='" + currentValue.attribut + "'>" + currentValue.value.capitalize() + "</a>"
-                        }, "");
-                        $("#filter").html(text)
+                })
+                .mouse({
+                    "move": true,                        // key will also take custom function
+                    "click": function (data1, instance) {
+                        if (forGroup.length > 1) {
+                            let filtreAttribut = forGroup.shift();
+                            filtres.push({attribut: filtreAttribut, value: data1[filtreAttribut]});
+                            let text = filtres.reduce((accumulator, currentValue) => {
+                                return accumulator + (accumulator.length > 0 ? " > " : "") + "<a class= 'filter' heref='#' id='" + currentValue.attribut + "'>" + currentValue.value.capitalize() + "</a>"
+                            }, "");
+                            $("#filter").html(text)
 
-                        let list = filtreParAttribut(data, filtres)
-                        creatStats(forGroup, parPourcentageNutriscor, nutritionScore, list, filtres)
+                            let list = filtreParAttribut(data, filtres)
+
+                            console.log(list.length, parPourcentageNutriscor)
+
+                            creatStats(forGroup, parPourcentageNutriscor, nutritionScore, list, filtres)
+                        }
                     }
-                }
-            })
-            // .depth(3)
-            .size("total")
-            //.labels({"align": "left", "valign": "top"})
-            .draw();
+                })
+                // .depth(3)
+                .size("total")
+                //.labels({"align": "left", "valign": "top"})
+                .draw();
+        }
     }
 
     $(document).ready(function () {
