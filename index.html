@@ -168,14 +168,13 @@
         }
     }
 
-    function resolveGroup(){
+    function resolveGroup(parPourcentageNutriscor) {
         var forGroup = []
         $("#menuFilters span").each((i, e) => {
-            if (e.id) {
+            if (e.id && !(parPourcentageNutriscor && e.id === "nutrition")){
                 forGroup.push(e.id)
             }
         });
-        console.log(forGroup)
         return forGroup;
     }
 
@@ -191,14 +190,14 @@
             $("#filter").empty()
             parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true";
             let nutritionScore = $("#nutritionScore select").find(":selected").val();
-            creatStats(resolveGroup(), parPourcentageNutriscor, nutritionScore, data, []);
+            creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
 
         $("input[name='pourcentate']").click(e => {
             $("#filter").empty()
             parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true";
             let nutritionScore = $("#nutritionScore select").find(":selected").val();
-            creatStats(resolveGroup(), parPourcentageNutriscor, nutritionScore, data, []);
+            creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
             if (parPourcentageNutriscor) {
                 $("#thirdLevel").hide();
                 $("#nutritionScore").show();
@@ -210,17 +209,17 @@
 
         $("#nutritionScore select").on("change", e => {
             let nutritionScore = $(this).find(":selected").val();
-            creatStats(resolveGroup(), parPourcentageNutriscor, nutritionScore, data, []);
+            creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
 
         $("input[name='type']").on("change", e => {
             let nutritionScore = $(this).find(":selected").val();
-            creatStats(resolveGroup(), parPourcentageNutriscor, nutritionScore, data, []);
+            creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
 
         $("input[name='max']").on("change", e => {
             let nutritionScore = $(this).find(":selected").val();
-            creatStats(resolveGroup(), parPourcentageNutriscor, nutritionScore, data, []);
+            creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
 
         let pourcentage = $("input[name='pourcentate']:checked").val() === "true"
@@ -263,7 +262,7 @@
             $("#thirdLevel ." + className).hide()
 
             let nutritionScore = $(this).find(":selected").val();
-            creatStats(resolveGroup(), parPourcentageNutriscor, nutritionScore, data, []);
+            creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
         $("#secondLevel .level").click(e => {
             $("#secondLevel span").text($(e.target).text())
@@ -282,9 +281,9 @@
                 }
             })
             let nutritionScore = $(this).find(":selected").val();
-            creatStats(resolveGroup(), parPourcentageNutriscor, nutritionScore, data, []);
+            creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
-        creatStats(resolveGroup(), pourcentage, $("#nutritionScore select").find(":selected").val(), data, []);
+        creatStats(resolveGroup(parPourcentageNutriscor), pourcentage, $("#nutritionScore select").find(":selected").val(), data, []);
     });
 
 
