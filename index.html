@@ -207,10 +207,10 @@
             let nutritionScore = $("#nutritionScore select").find(":selected").val();
             creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
             if (parPourcentageNutriscor) {
-                $("#thirdLevel").hide();
+                $("#menuFilters").hide();
                 $("#nutritionScore").show();
             } else {
-                $("#thirdLevel").show();
+                $("#menuFilters").show();
                 $("#nutritionScore").hide();
             }
         });
@@ -238,10 +238,10 @@
 
         let pourcentage = $("input[name='pourcentate']:checked").val() === "true"
         if (pourcentage) {
-            $("#thirdLevel").hide();
+            $("#menuFilters").hide();
             $("#nutritionScore").show();
         } else {
-            $("#thirdLevel").show();
+            $("#menuFilters").show();
             $("#nutritionScore").hide();
         }
 
