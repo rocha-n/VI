@@ -267,38 +267,82 @@
             console.log(e.target.id);
             console.log(e.target.className);
             $("#firstLevel span").text($(e.target).text())
-            var className = e.target.className.split(" ")[1]
-            $("#firstLevel span").attr("id", className)
+            var firstClassName = e.target.className.split(" ")[1]
+            $("#firstLevel span").attr("id", firstClassName)
 
             $("#secondLevel .level").show()
-            $("#secondLevel ." + className).hide()
+            $("#secondLevel ." + firstClassName).hide()
             $("#thirdLevel .level").show()
-            $("#thirdLevel ." + className).hide()
+            $("#thirdLevel ." + firstClassName).hide()
+
+            var secondClassName = $("#secondLevel span").attr("id")
+            var thirdClassName = $("#thirdLevel span").attr("id")
+
+            console.log("firstclassName: " + firstClassName);
+            console.log("secondClassName: " + secondClassName);
+            console.log("thirdClassName: " + thirdClassName);
+            if(firstClassName == secondClassName){
+                var newClass = getNewClass(firstClassName, thirdClassName)
+                $("#secondLevel span").attr("id", newClass.className.split(" ")[1])
+                $("#secondLevel span").text($(newClass).text())
+            }
+            if(firstClassName == thirdClassName){
+                var newClass = getNewClass(firstClassName, secondClassName)
+                $("#thirdLevel span").attr("id", newClass.className.split(" ")[1])
+                $("#thirdLevel span").text($(newClass).text())
+            }
 
             let nutritionScore = $(this).find(":selected").val();
             creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
+
         $("#secondLevel .level").click(e => {
             $("#secondLevel span").text($(e.target).text())
-            var classNameSecond = e.target.className.split(" ")[1]
-            $("#secondLevel span").attr("id", classNameSecond)
-            var classNameFirst = $("#firstLevel span").attr("id")
+            var secondClassName = e.target.className.split(" ")[1]
+            $("#secondLevel span").attr("id", secondClassName)
 
-            $("#thirdLevel ." + classNameSecond).hide()
-            $("#thirdLevel ." + classNameFirst).hide()
-            var aLevels = $("#thirdLevel a")
+            var firstClassName = $("#firstLevel span").attr("id")
+            var thirdClassName = $("#thirdLevel span").attr("id")
+
+            $("#thirdLevel ." + secondClassName).hide()
+            $("#thirdLevel ." + firstClassName).hide()
+
+            if(secondClassName == firstClassName){
+                var newClass = getNewClass(secondClassName, thirdClassName)
+                $("#firstLevel span").attr("id", newClass.className.split(" ")[1])
+                $("#firstLevel span").text($(newClass).text())
+            }
+
+            if(secondClassName == thirdClassName){
+                var newClass = getNewClass(secondClassName, firstClassName)
+                $("#thirdLevel span").attr("id", newClass.className.split(" ")[1])
+                $("#thirdLevel span").text($(newClass).text())
+            }
+            /*var aLevels = $("#thirdLevel a")
             aLevels.each((v, a) => {
                 var aClass = $(a).attr("class").split(" ")[1]
-                if (aClass != classNameSecond && aClass != classNameFirst) {
+                if (aClass != secondClassName && aClass != firstClassName) {
                     $("#thirdLevel span").attr("id", aClass)
                     $("#thirdLevel span").text(aClass)
                 }
-            })
+            })*/
             let nutritionScore = $(this).find(":selected").val();
             creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
         creatStats(resolveGroup(parPourcentageNutriscor), pourcentage, $("#nutritionScore select").find(":selected").val(), data, []);
     });
+
+    function getNewClass(class1, class2){
+        var aLevels = $("#firstLevel a")
+        var i = 0
+        while(aLevels.get(i).className.split(" ")[1] == class1
+            || aLevels.get(i).className.split(" ")[1] == class2
+            ){
+            i = i + 1
+        }
+        var newClass = aLevels.get(i)
+        return newClass
+    }
 
 
 </script>
