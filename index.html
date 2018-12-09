@@ -39,6 +39,13 @@
     </div>
     <div>
         <div class="radioClass">
+            <div>Max affiché</div>
+            <input id="maxAfficher" name="maxAfficher" type="number" value="150"/> <br/>
+        </div>
+        <br/>
+    </div>
+    <div>
+        <div class="radioClass">
             <div>Style de graphique</div>
             <input checked="checked" name="type" type="radio" value="tree_map"/> Tree map <br/>
             <input name="type" type="radio" value="bar"/> Bar
@@ -114,9 +121,13 @@
             //forGroup = ["pays", "nutrition", "marque"]
             list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
         }
-        if (list.length > 150) {
-            alert("Il y à trop données, les 150 plus grandes ont été retenue")
-            list = list.sort((a, b) => b.total - a.total).slice(0, 150);
+        let maxAfficher = $("#maxAfficher").val();
+        if (!maxAfficher) {
+            maxAfficher = 150
+        }
+        if (list.length > maxAfficher) {
+            alert("Il y à trop données, les " + maxAfficher + " plus grandes ont été retenue")
+            list = list.sort((a, b) => b.total - a.total).slice(0, maxAfficher);
         }
         $("#viz").empty()
         let height = document.getElementById("attribution").offsetHeight
@@ -227,7 +238,7 @@
             creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
 
-        $("input[name='max']").on("change", e => {
+        $("input[name='max'], #maxAfficher").on("change", e => {
             let nutritionScore = $(this).find(":selected").val();
             let list = data;
             let forGroup = resolveGroup(parPourcentageNutriscor);
@@ -237,6 +248,7 @@
             }
             creatStats(forGroup, parPourcentageNutriscor, nutritionScore, list, filtres);
         })
+
 
         let pourcentage = $("input[name='pourcentate']:checked").val() === "true"
         if (pourcentage) {
