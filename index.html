@@ -13,13 +13,13 @@
     <a class="closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
     <div>
         <div class="radioClass">
-            <div>Style de donées</div>
+            <div>Valeurs des donées</div>
             <input checked="checked" name="pourcentate" type="radio" value="false"/> Quantité <br/>
             <input name="pourcentate" type="radio" value="true"/> Pourcentage
         </div>
 
         <div class="radioClass" id="nutritionScore" style="display: none">
-            <div>Nutrition score</div>
+            <div>Filtre par nutrition score</div>
             <select name="nutritionScore">
                 <option value="a">A</option>
                 <option value="b">B</option>
@@ -32,7 +32,7 @@
     </div>
     <div>
         <div class="radioClass">
-            <div> Max de quantité de produit</div>
+            <div> Limite max de quantité de produit (masquer les groupes en possédant plus)</div>
             <input name="max" type="number" value=""/> <br/>
         </div>
         <br/>
@@ -45,13 +45,13 @@
         </div>
         <br/>
     </div>
+    <div class="radioClass">Ordre de regroupement des données</div>
     <div id="menuFilters">
         <div id="firstLevel">
             <span onclick="firstLevel()">First Level</span>
             <div class="dropdown-content" id="drop1">
                 <a class="level pays" href="#country" id="l1_country">Country</a>
                 <a class="level nutrition" href="#nutriscore" id="l1_nutriscore">Nutriscore</a>
-                <a class="level marque" href="#brand" id="l1_brand">Brand</a>
             </div>
         </div>
         <div id="secondLevel">
@@ -223,22 +223,22 @@
         })
 
         let pourcentage = $("input[name='pourcentate']:checked").val() === "true"
-        if (pourcentage) {
+        if (!pourcentage) {
             $("#thirdLevel").hide();
-            $("#nutritionScore").show();
+            $("#secondLevel").show();
         } else {
             $("#thirdLevel").show();
-            $("#nutritionScore").hide();
+            $("#secondLevel").hide();
         }
 
         // Initialise elements
         var aLevels = $("#firstLevel a")
         firstClass = aLevels.get(0).className.split(" ")[1]
         secondClass = aLevels.get(1).className.split(" ")[1]
-        thirdClass = aLevels.get(2).className.split(" ")[1]
+        //thirdClass = aLevels.get(2).className.split(" ")[1]
         $("#firstLevel span").attr("id", firstClass)
         $("#secondLevel span").attr("id", secondClass)
-        $("#thirdLevel span").attr("id", thirdClass)
+        //$("#thirdLevel span").attr("id", thirdClass)
 
         console.log("text: " + $(aLevels.get(0)).text())
         $("#firstLevel span").text($(aLevels.get(0)).text())
@@ -258,8 +258,31 @@
 
             $("#secondLevel .level").show()
             $("#secondLevel ." + className).hide()
-            $("#thirdLevel .level").show()
-            $("#thirdLevel ." + className).hide()
+            //$("#thirdLevel .level").show()
+            //$("#thirdLevel ." + className).hide()
+
+            var aLevels = $("#firstLevel a")
+            var secondClassName = aLevels.get(1).className.split(" ")[1]
+            //var thirdClassName = aLevels.get(2).className.split(" ")[1]
+            if(className == secondClassName){
+                var i = 0
+                while(aLevels.get(i).className.split(" ")[1] == className
+                    //|| aLevels.get(i).className.split(" ")[1] == thirdClassName
+                    ){
+                    i = i + 1
+                }
+                $("#secondLevel span").attr("id", aLevels.get(i).className.split(" ")[1])
+                $("#secondLevel span").text($(aLevels.get(i)).text())
+            }
+            /*if(className == thirdClassName){
+                var i = 0
+                while(aLevels.get(i).className.split(" ")[1] == className ||
+                    aLevels.get(i).className.split(" ")[1] == secondClassName){
+                    i = i + 1
+                }
+                $("#secondLevel span").attr("id", aLevels.get(i).className.split(" ")[1])
+                $("#secondLevel span").text($(aLevels.get(i)).text())
+            }*/
 
             let nutritionScore = $(this).find(":selected").val();
             creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
