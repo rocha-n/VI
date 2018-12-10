@@ -178,7 +178,7 @@ input {
 /***********/
 
 .slidecontainer {
-  width: 100%; /* Width of the outside container */
+    width: 100%; /* Width of the outside container */
 }
 
 .slider {
@@ -192,24 +192,24 @@ input {
 
 /* Mouse-over effects */
 .slider:hover {
-  opacity: 1; /* Fully shown on mouse-over */
+    opacity: 1; /* Fully shown on mouse-over */
 }
 
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Override default look */
-  appearance: none;
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
 }
 
 .slider::-moz-range-thumb {
-  width: 25px; /* Set a specific slider handle width */
-  height: 25px; /* Slider handle height */
-  background: #4CAF50; /* Green background */
-  cursor: pointer; /* Cursor on hover */
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
 }
 
 /*****************/
@@ -218,71 +218,71 @@ input {
 
 /* The switch - the box around the slider */
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 46px;
-  height: 20px;
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 20px;
 }
 
 /* Hide default HTML checkbox */
 .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
 /* The slider */
 .slider2 {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #33cc33;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #33cc33;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
 .slider2:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
 input:checked + .slider2 {
-  background-color: #2196F3;
+    background-color: #2196F3;
 }
 
 input:focus + .slider2 {
-  box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #2196F3;
 }
 
 input:checked + .slider2:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
 }
 
 /* Rounded sliders */
 .slider2.round {
-  border-radius: 34px;
+    border-radius: 34px;
 }
 
 .slider2.round:before {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 .toggle {
-  padding: 4px;
-  float: left;
-  position: relative;
+    padding: 4px;
+    float: left;
+    position: relative;
 }
 
 
@@ -292,47 +292,48 @@ input:checked + .slider2:before {
 
 /* Tooltip container */
 .tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
 }
 
 /* Tooltip text */
 .tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
 
-  /* Position the tooltip text */
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
 
-  /* Fade in tooltip */
-  opacity: 0;
-  transition: opacity 0.3s;
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 /* Tooltip arrow */
 .tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
+    font-size: 12px;
 }

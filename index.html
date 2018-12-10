@@ -21,23 +21,24 @@
             </div>
             <div class="toggle">
                 <label class="switch">
-                    <input name="pourcentate" type="checkbox"  data-on="true" data-off="false">
+                    <input name="pourcentate" type="checkbox" >
                     <span class="slider2 round"></span>
-
                 </label>
             </div>
             <div class="toggle tooltip">&#37;
-                <span class="tooltiptext">Pourcentages</span>
+                <span class="tooltiptext">Pourcentages des nutriscores</span>
             </div>
         </div>
-        <div class="radioClass">
-            <input checked="checked" name="pourcentate" type="radio" value="false"/> Quantité <br/>
-            <input name="pourcentate" type="radio" value="true"/> Pourcentage
-        </div>
+        <br />
+        <!--    <div class="radioClass" style="display: none">
+                <input checked="checked" name="pourcentate" type="radio" value="false"/> Quantité <br/>
+                <input name="pourcentate" type="radio" value="true"/> Pourcentage
+            </div>-->
 
-        <div class="radioClass" id="nutritionScore" style="display: none">
-            <div class="menuTitle">Nutrition score</div>
-            <select name="nutritionScore">
+        <div class="menuTitle" id="nutritionScore" style="display: none">
+            <div>Nutrition score</div>
+
+            <select name="nutritionScore" style="margin:8px">
                 <option value="a">A</option>
                 <option value="b">B</option>
                 <option value="c">C</option>
@@ -45,22 +46,31 @@
                 <option value="e">E</option>
             </select>
         </div>
-        <br/>
     </div>
     <div>
         <div class="menuTitle">Max et Min de données</div>
         <div class="radioClass">
-            <div> Nombre max de produit par groupe: <input class="numberInput" id="maxProductsInput" name="max" type="number" value=""/></div>
+            <div> Nombre max de produit par groupe:
+                <input class="numberInput" id="maxProductsInput" name="max" type="number" value=""/>
+            </div>
             <div class="slidecontainer">
-                10<input name="max" type="range" min="10" max="120000" value="110000" class="slider" id="maxProductRange">120000
+                10<input class="slider" id="maxProductRange" max="120000" min="10" name="max" type="range"
+                         value="110000">120000
             </div>
         </div>
         <div class="radioClass">
-            <div>Nombre max de groupes affiché: <input class="numberInput" id="maxGroupsInput" name="max" type="number" value=""/></div>
+            <div class="toggle tooltip">
+                <span class="tooltiptext" >Filtre les plus grands groupes</span>
+
+            <div>Nombre max de groupes affiché:
+                <input class="numberInput" id="maxGroupsInput" name="max" type="number" value=""/>
+            </div>
             <div class="slidecontainer">
                 2<input id="maxAfficher" name="maxAfficher" type="range" min="2" max="150" value="50" class="slider">150
             </div>
+            </div>
         </div>
+
         <br/>
     </div>
     <div>
@@ -146,7 +156,7 @@
             maxAfficher = 150
         }
         if (list.length > maxAfficher) {
-            alert("Il y à trop données, les " + maxAfficher + " plus grandes ont été retenue")
+            //  alert("Il y à trop données, les " + maxAfficher + " plus grandes ont été retenue")
             list = list.sort((a, b) => b.total - a.total).slice(0, maxAfficher);
         }
         $("#viz").empty()
@@ -216,7 +226,7 @@
 
     $(document).ready(function () {
         let forGroupOriginale = ["pays", "nutrition", "marque"]
-        let parPourcentageNutriscor = false;
+        let parPourcentageNutriscor =  $("input[name='pourcentate']").is(':checked');
 
         $("#menuFilters a").on("click", (e) => {
             $(e.target).parent().hide()
@@ -224,7 +234,6 @@
         })
         $('#filter').on('click', '.filter', function (obj) {
             $("#filter").empty()
-            parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true";
             let nutritionScore = $("#nutritionScore select").find(":selected").val();
             currentForGroup = [];
             filtres = []
@@ -234,7 +243,7 @@
 
         $("input[name='pourcentate']").click(e => {
             $("#filter").empty()
-            parPourcentageNutriscor = $("input[name='pourcentate']:checked").val() === "true";
+            parPourcentageNutriscor =  $("input[name='pourcentate']").is(':checked')
             let nutritionScore = $("#nutritionScore select").find(":selected").val();
             let forGroup = parPourcentageNutriscor ? forGroupOriginale : resolveGroup(parPourcentageNutriscor);
             creatStats(forGroup, parPourcentageNutriscor, nutritionScore, data, []);
@@ -269,16 +278,13 @@
             creatStats(forGroup, parPourcentageNutriscor, nutritionScore, list, filtres);
         })
 
-
-        let pourcentage = $("input[name='pourcentate']:checked").val() === "true"
-        if (pourcentage) {
+        if (parPourcentageNutriscor) {
             $("#menuFilters").hide();
             $("#nutritionScore").show();
         } else {
             $("#menuFilters").show();
             $("#nutritionScore").hide();
         }
-
         // Initialise elements
         var aLevels = $("#firstLevel a")
         firstClass = aLevels.get(0).className.split(" ")[1]
@@ -363,7 +369,36 @@
             let nutritionScore = $(this).find(":selected").val();
             creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, nutritionScore, data, []);
         })
-        creatStats(resolveGroup(parPourcentageNutriscor), pourcentage, $("#nutritionScore select").find(":selected").val(), data, []);
+
+
+        // Handle slider1 value
+        var slider1 = document.getElementById("maxProductRange");
+        var output1 = document.getElementById("maxProductsInput");
+        output1.value = slider1.value; // Display the default slider value
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider1.oninput = function () {
+            output1.value = this.value;
+        }
+        output1.oninput = function () {
+            slider1.value = this.value;
+        }
+
+        // Handle slider2 value
+        var slider2 = document.getElementById("maxAfficher");
+        var output2 = document.getElementById("maxGroupsInput");
+        output2.value = slider2.value; // Display the default slider value
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider2.oninput = function () {
+            output2.value = this.value;
+        }
+        output2.oninput = function () {
+            slider2.value = this.value;
+        }
+
+
+        creatStats(resolveGroup(parPourcentageNutriscor), parPourcentageNutriscor, $("#nutritionScore select").find(":selected").val(), data, []);
     });
 
     function getNewClass(class1, class2) {
@@ -376,33 +411,6 @@
         }
         var newClass = aLevels.get(i)
         return newClass
-    }
-
-    // Handle slider1 value
-    var slider1 = document.getElementById("maxProductRange");
-    var output1 = document.getElementById("maxProductsInput");
-    output1.value = slider1.value; // Display the default slider value
-
-    // Update the current slider value (each time you drag the slider handle)
-    slider1.oninput = function() {
-      output1.value = this.value;
-    }
-    output1.oninput = function() {
-      slider1.value = this.value;
-    }
-
-
-    // Handle slider2 value
-    var slider2 = document.getElementById("maxAfficher");
-    var output2 = document.getElementById("maxGroupsInput");
-    output2.value = slider2.value; // Display the default slider value
-
-    // Update the current slider value (each time you drag the slider handle)
-    slider2.oninput = function() {
-      output2.value = this.value;
-    }
-    output2.oninput = function() {
-      slider2.value = this.value;
     }
 
 
