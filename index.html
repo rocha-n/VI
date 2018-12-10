@@ -13,6 +13,23 @@
     <a class="closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
     <div>
         <div class="menuTitle">Type de donées</div>
+        <!-- Rounded switch -->
+
+        <div class="radioClass">
+            <div class="toggle tooltip">&#8721;
+                <span class="tooltiptext">Quantités</span>
+            </div>
+            <div class="toggle">
+                <label class="switch">
+                    <input name="pourcentate" type="checkbox"  data-on="true" data-off="false">
+                    <span class="slider2 round"></span>
+
+                </label>
+            </div>
+            <div class="toggle tooltip">&#37;
+                <span class="tooltiptext">Pourcentages</span>
+            </div>
+        </div>
         <div class="radioClass">
             <input checked="checked" name="pourcentate" type="radio" value="false"/> Quantité <br/>
             <input name="pourcentate" type="radio" value="true"/> Pourcentage
@@ -41,7 +58,7 @@
         <div class="radioClass">
             <div>Nombre max de groupes affiché: <input class="numberInput" id="maxGroupsInput" name="max" type="number" value=""/></div>
             <div class="slidecontainer">
-                2<input id="maxAfficher" name="maxAfficher" type="range" min="2" max="150" value="150" class="slider">150
+                2<input id="maxAfficher" name="maxAfficher" type="range" min="2" max="150" value="50" class="slider">150
             </div>
         </div>
         <br/>
