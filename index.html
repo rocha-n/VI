@@ -12,14 +12,14 @@
 <div class="sidenav" id="mySidenav">
     <a class="closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
     <div>
+        <div class="menuTitle">Type de donées</div>
         <div class="radioClass">
-            <div>Style de donées</div>
             <input checked="checked" name="pourcentate" type="radio" value="false"/> Quantité <br/>
             <input name="pourcentate" type="radio" value="true"/> Pourcentage
         </div>
 
         <div class="radioClass" id="nutritionScore" style="display: none">
-            <div>Nutrition score</div>
+            <div class="menuTitle">Nutrition score</div>
             <select name="nutritionScore">
                 <option value="a">A</option>
                 <option value="b">B</option>
@@ -31,50 +31,53 @@
         <br/>
     </div>
     <div>
+        <div class="menuTitle">Max et Min de données</div>
         <div class="radioClass">
-            <div> Max de quantité de produit</div>
-            <input name="max" type="number" value=""/> <br/>
+            <div> Nombre max de produit par groupe: <input class="numberInput" id="maxProductsInput" name="max" type="number" value=""/></div>
+            <div class="slidecontainer">
+                10<input name="max" type="range" min="10" max="120000" value="110000" class="slider" id="maxProductRange">120000
+            </div>
+        </div>
+        <div class="radioClass">
+            <div>Nombre max de groupes affiché: <input class="numberInput" id="maxGroupsInput" name="max" type="number" value=""/></div>
+            <div class="slidecontainer">
+                2<input id="maxAfficher" name="maxAfficher" type="range" min="2" max="150" value="150" class="slider">150
+            </div>
         </div>
         <br/>
     </div>
     <div>
+        <div class="menuTitle">Style de graphique</div>
         <div class="radioClass">
-            <div>Max affiché</div>
-            <input id="maxAfficher" name="maxAfficher" type="number" value="150"/> <br/>
-        </div>
-        <br/>
-    </div>
-    <div>
-        <div class="radioClass">
-            <div>Style de graphique</div>
             <input checked="checked" name="type" type="radio" value="tree_map"/> Tree map <br/>
             <input name="type" type="radio" value="bar"/> Bar
         </div>
         <br/>
     </div>
     <div id="menuFilters">
+        <div class="menuTitle">Ordre de regroupement des données</div>
         <div id="firstLevel">
             <span onclick="firstLevel()">First Level</span>
             <div class="dropdown-content" id="drop1">
-                <a class="level pays" href="#country" id="l1_country">Country</a>
+                <a class="level pays" href="#country" id="l1_country">Pays</a>
                 <a class="level nutrition" href="#nutriscore" id="l1_nutriscore">Nutriscore</a>
-                <a class="level marque" href="#brand" id="l1_brand">Brand</a>
+                <a class="level marque" href="#brand" id="l1_brand">Marque</a>
             </div>
         </div>
         <div id="secondLevel">
             <span onclick="secondLevel()">Second Level</span>
             <div class="dropdown-content" id="drop2">
-                <a class="level pays" href="#country" id="l2_country">Country</a>
+                <a class="level pays" href="#country" id="l2_country">Pays</a>
                 <a class="level nutrition" href="#nutriscore" id="l2_nutriscore">Nutriscore</a>
-                <a class="level marque" href="#brand" id="l2_brand">Brand</a>
+                <a class="level marque" href="#brand" id="l2_brand">Marque</a>
             </div>
         </div>
         <div id="thirdLevel">
             <span>Third Level</span>
             <div class="dropdown-content" id="drop3">
-                <a class="level pays" href="#country" id="l3_country">Country</a>
+                <a class="level pays" href="#country" id="l3_country">Pays</a>
                 <a class="level nutrition" href="#nutriscore" id="l3_nutriscore">Nutriscore</a>
-                <a class="level marque" href="#brand" id="l3_brand">Brand</a>
+                <a class="level marque" href="#brand" id="l3_brand">Marque</a>
             </div>
             <br/>
         </div>
@@ -356,6 +359,33 @@
         }
         var newClass = aLevels.get(i)
         return newClass
+    }
+
+    // Handle slider1 value
+    var slider1 = document.getElementById("maxProductRange");
+    var output1 = document.getElementById("maxProductsInput");
+    output1.value = slider1.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider1.oninput = function() {
+      output1.value = this.value;
+    }
+    output1.oninput = function() {
+      slider1.value = this.value;
+    }
+
+
+    // Handle slider2 value
+    var slider2 = document.getElementById("maxAfficher");
+    var output2 = document.getElementById("maxGroupsInput");
+    output2.value = slider2.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider2.oninput = function() {
+      output2.value = this.value;
+    }
+    output2.oninput = function() {
+      slider2.value = this.value;
     }
 
 
