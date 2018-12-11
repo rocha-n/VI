@@ -14,8 +14,13 @@ import java.util.stream.Stream;
 public class Main {
     public static void main(String args[]) throws IOException {
         //String fileName = "D:\\HesSo\\ProjetHes\\vijava\\src\\resource\\data.csv";
-        String fileName = "C:\\Users\\dma\\Downloads\\en.openfoodfacts.org.products.csv";
-        toJsonFile(createList(fileName));
+        //String fileName = "C:\\Users\\dma\\Downloads\\en.openfoodfacts.org.products.csv";
+        String filename = "data\\en.openfoodfacts.org.products.csv";
+        String workingDirectory = System.getProperty("user.dir");
+        String absoluteFilePath = workingDirectory + File.separator + filename;
+        System.out.println("Final filepath : " + absoluteFilePath);
+
+        toJsonFile(createList(absoluteFilePath));
     }
 
     private static List<Map<String, String>> createList(String fileName) {
