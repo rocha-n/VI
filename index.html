@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" rel="stylesheet">
 </head>
 
 <body>
@@ -21,7 +22,7 @@
             </div>
             <div class="toggle">
                 <label class="switch">
-                    <input name="pourcentate" type="checkbox" >
+                    <input name="pourcentate" type="checkbox">
                     <span class="slider2 round"></span>
                 </label>
             </div>
@@ -29,8 +30,8 @@
                 <span class="tooltiptext">Proportions par nutriscores</span>
             </div>
         </div>
-        <br />
-        <br />
+        <br/>
+        <br/>
         <!--    <div class="radioClass" style="display: none">
                 <input checked="checked" name="pourcentate" type="radio" value="false"/> Quantité <br/>
                 <input name="pourcentate" type="radio" value="true"/> Pourcentage
@@ -61,51 +62,44 @@
         </div>
         <div class="radioClass">
             <div class="toggle tooltip">
-                <span class="tooltiptext" >Filtre les plus grands groupes</span>
+                <span class="tooltiptext">Filtre les plus grands groupes</span>
 
-            <div>Nombre max de groupes affiché:
-                <input class="numberInput" id="maxGroupsInput" name="max" type="number" value=""/>
-            </div>
-            <div class="slidecontainer">
-                2<input id="maxAfficher" name="maxAfficher" type="range" min="2" max="150" value="50" class="slider">150
-            </div>
+                <div>Nombre max de groupes affiché:
+                    <input class="numberInput" id="maxGroupsInput" name="max" type="number" value=""/>
+                </div>
+                <div class="slidecontainer">
+                    2<input class="slider" id="maxAfficher" max="150" min="2" name="maxAfficher" type="range"
+                            value="50">150
+                </div>
             </div>
         </div>
 
         <br/>
-        <br />
-        <br />
+        <br/>
+        <br/>
     </div>
 
-    <br />
+    <br/>
     <br/>
     <div class="menuTitle">Type de graphique</div>
     <!-- Rounded switch -->
     <div class="radioClass">
         <div class="toggle tooltip"><i class='fas fa-table' style='font-size:24px'></i>
-            <span class="tooltiptext">Quantités</span>
+            <span class="tooltiptext">Tree map</span>
         </div>
         <div class="toggle">
             <label class="switch">
-                <input name="pourcentate" type="checkbox" >
+                <input name="type" type="checkbox">
                 <span class="slider3 round"></span>
             </label>
         </div>
         <div class="toggle tooltip">
             <i class='fas fa-chart-bar' style='font-size:24px'></i>
-            <span class="tooltiptext">Proportions par nutriscores</span>
+            <span class="tooltiptext">Bar</span>
         </div>
         <br/>
     </div>
     <br/>
-    <div>
-        <div class="menuTitle">Style de graphique</div>
-        <div class="radioClass">
-            <input checked="checked" name="type" type="radio" value="tree_map"/> Tree map <br/>
-            <input name="type" type="radio" value="bar"/> Bar
-        </div>
-        <br/>
-    </div>
     <div id="menuFilters">
         <div class="menuTitle">Ordre de regroupement des données</div>
         <div id="firstLevel">
@@ -190,7 +184,7 @@
         let visualization = d3plus.viz()
             .container("#viz")
             .data(list)
-            .type($("input[name='type']:checked").val())
+            .type($("input[name='type']").is(':checked')?"bar":"tree_map")
             // .type("bar")
             .x({value: forGroup[0], grid: false})
             .y({value: "total", grid: false})
@@ -252,7 +246,7 @@
 
     $(document).ready(function () {
         let forGroupOriginale = ["pays", "nutrition", "marque"]
-        let parPourcentageNutriscor =  $("input[name='pourcentate']").is(':checked');
+        let parPourcentageNutriscor = $("input[name='pourcentate']").is(':checked');
 
         $("#menuFilters a").on("click", (e) => {
             $(e.target).parent().hide()
@@ -269,7 +263,7 @@
 
         $("input[name='pourcentate']").click(e => {
             $("#filter").empty()
-            parPourcentageNutriscor =  $("input[name='pourcentate']").is(':checked')
+            parPourcentageNutriscor = $("input[name='pourcentate']").is(':checked')
             let nutritionScore = $("#nutritionScore select").find(":selected").val();
             let forGroup = parPourcentageNutriscor ? forGroupOriginale : resolveGroup(parPourcentageNutriscor);
             creatStats(forGroup, parPourcentageNutriscor, nutritionScore, data, []);
