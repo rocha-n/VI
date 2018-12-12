@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 
 <body>
@@ -14,7 +15,6 @@
     <div>
         <div class="menuTitle">Type de donées</div>
         <!-- Rounded switch -->
-
         <div class="radioClass">
             <div class="toggle tooltip">&#8721;
                 <span class="tooltiptext">Quantités</span>
@@ -26,9 +26,10 @@
                 </label>
             </div>
             <div class="toggle tooltip">&#37;
-                <span class="tooltiptext">Pourcentages des nutriscores</span>
+                <span class="tooltiptext">Proportions par nutriscores</span>
             </div>
         </div>
+        <br />
         <br />
         <!--    <div class="radioClass" style="display: none">
                 <input checked="checked" name="pourcentate" type="radio" value="false"/> Quantité <br/>
@@ -72,7 +73,31 @@
         </div>
 
         <br/>
+        <br />
+        <br />
     </div>
+
+    <br />
+    <br/>
+    <div class="menuTitle">Type de graphique</div>
+    <!-- Rounded switch -->
+    <div class="radioClass">
+        <div class="toggle tooltip"><i class='fas fa-table' style='font-size:24px'></i>
+            <span class="tooltiptext">Quantités</span>
+        </div>
+        <div class="toggle">
+            <label class="switch">
+                <input name="pourcentate" type="checkbox" >
+                <span class="slider3 round"></span>
+            </label>
+        </div>
+        <div class="toggle tooltip">
+            <i class='fas fa-chart-bar' style='font-size:24px'></i>
+            <span class="tooltiptext">Proportions par nutriscores</span>
+        </div>
+        <br/>
+    </div>
+    <br/>
     <div>
         <div class="menuTitle">Style de graphique</div>
         <div class="radioClass">
@@ -113,7 +138,8 @@
 <!-- Use any element to open the sidenav -->
 <div id="attribution">
     <span onclick="openNav()" style="font-size:30px;cursor:pointer">&#9776; menu</span>
-    <span class="attribution">Data used to generate the graph is provided by
+    <span class="attribution">
+        Data used to generate the graph is provided by
             <a href="https://openfoodfacts.org">Open Food Facts</a>
         and is licensed under <a href="https://opendatacommons.org/licenses/odbl/1.0/">ODbL v1.0</a> </span>
 </div>
@@ -144,10 +170,10 @@
         if (parPourcentageNutriscor) {
             forGroup = forGroup.filter(v => v !== "nutrition");
             list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
-            titre = "Montre le nombre de pourcentage en fonction du nutriscore " + nutritionScore.toUpperCase();
+            titre = "Treemap affichant les pays par proportion de nutriscore " + nutritionScore.toUpperCase();
             list = filtrePourLesNutritiomAndComputPourcentage(forGroup, nutritionScore, list);
         } else {
-            titre = "Montre le nombre de produit";
+            titre = "Treemap affichant les regroupements de quantité de produits par pays/nutriscore/marque (modification de l'ordre dans le menu)";
             //forGroup = ["pays", "nutrition", "marque"]
             list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
         }

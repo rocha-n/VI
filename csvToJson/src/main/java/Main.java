@@ -30,8 +30,8 @@ public class Main {
                          .filter(values -> values.length > findIndexMax()
                                  && values[Champs.NUTRITION.getIndex()].length() == 1
                                  && hasAllChamps(values))
-                         .peek(values -> values[Champs.MARQUE.getIndex()] = values[Champs.MARQUE.getIndex()].split(",")[0])
                          .peek(values -> values[Champs.PAYS.getIndex()] = replaceTextInBrand(values[Champs.PAYS.getIndex()].trim().split(",")[0]))
+                         .peek(values -> values[Champs.MARQUE.getIndex()] = values[Champs.MARQUE.getIndex()].split(",")[0])
                          .map(values -> Arrays.stream(Champs.values())
                                               .collect(Collectors.toMap(v -> v.name().toLowerCase(), v -> values[v.getIndex()])))
                          .collect(Collectors.toList());
