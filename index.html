@@ -17,7 +17,7 @@
         <div class="menuTitle">Type de donées</div>
         <!-- Rounded switch -->
         <div class="radioClass">
-            <div class="toggle tooltip"> <strong>&#8721; </strong>
+            <div class="toggle tooltip"><strong>&#8721; </strong>
                 <span class="tooltiptext">Quantités</span>
             </div>
             <div class="toggle">
@@ -173,7 +173,12 @@
             titre = typeGraphe + " affichant les pays par proportion de nutriscore " + nutritionScore.toUpperCase();
             list = filtrePourLesNutritiomAndComputPourcentage(forGroup, nutritionScore, list);
         } else {
-            titre = typeGraphe + " affichant les regroupements de quantité de produits par pays/nutriscore/marque (modification de l'ordre dans le menu)";
+            let filtre = ""
+            $("#menuFilters span").each((i, e) => {
+                filtre = filtre + "/" + $(e).text();
+            });
+            console.log(filtre)
+            titre = typeGraphe + " affichant les regroupements de quantité de produits par "+ filtre+" (modification de l'ordre dans le menu)";
             //forGroup = ["pays", "nutrition", "marque"]
             list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
         }
