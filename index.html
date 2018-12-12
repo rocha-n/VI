@@ -177,7 +177,6 @@
             $("#menuFilters span").each((i, e) => {
                 filtre = filtre + "/" + $(e).text();
             });
-            console.log(filtre)
             titre = typeGraphe + " affichant les regroupements de quantité de produits par "+ filtre+" (modification de l'ordre dans le menu)";
             //forGroup = ["pays", "nutrition", "marque"]
             list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
