@@ -161,13 +161,14 @@
         let max = $("input[name='max']").val() * 1
         let list = []
         let titre = "";
+        let typeGraphe = $("input[name='type']").is(':checked') ? "Bar" : "Treemap"
         if (parPourcentageNutriscor) {
             forGroup = forGroup.filter(v => v !== "nutrition");
             list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
-            titre = "Treemap affichant les pays par proportion de nutriscore " + nutritionScore.toUpperCase();
+            titre = typeGraphe + " affichant les pays par proportion de nutriscore " + nutritionScore.toUpperCase();
             list = filtrePourLesNutritiomAndComputPourcentage(forGroup, nutritionScore, list);
         } else {
-            titre = "Treemap affichant les regroupements de quantité de produits par pays/nutriscore/marque (modification de l'ordre dans le menu)";
+            titre = typeGraphe + " affichant les regroupements de quantité de produits par pays/nutriscore/marque (modification de l'ordre dans le menu)";
             //forGroup = ["pays", "nutrition", "marque"]
             list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
         }
@@ -184,7 +185,7 @@
         let visualization = d3plus.viz()
             .container("#viz")
             .data(list)
-            .type($("input[name='type']").is(':checked')?"bar":"tree_map")
+            .type($("input[name='type']").is(':checked') ? "bar" : "tree_map")
             // .type("bar")
             .x({value: forGroup[0], grid: false})
             .y({value: "total", grid: false})
