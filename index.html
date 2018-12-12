@@ -175,9 +175,12 @@
         } else {
             let filtre = ""
             $("#menuFilters span").each((i, e) => {
-                filtre = filtre + "/" + $(e).text();
+                if (filtre) {
+                    filtre = filtre + "/"
+                }
+                filtre = filtre + $(e).text();
             });
-            titre = typeGraphe + " affichant les regroupements de quantité de produits par "+ filtre+" (modification de l'ordre dans le menu)";
+            titre = typeGraphe + " affichant les regroupements de quantité de produits par " + filtre + " (modification de l'ordre dans le menu)";
             //forGroup = ["pays", "nutrition", "marque"]
             list = filtreParQuantiteDeProduit(groupByAndCountNutrition([forGroup[0]], listeCourante), max);
         }
