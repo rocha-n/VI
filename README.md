@@ -7,9 +7,9 @@ This is a team project required by the VI module in the context of the master at
 
 ## Index
 [Main idea and message](#main-idea-and-message)  
-[Usable dimensions for visualisation](#usable-dimensions-for-visualisation)
+[Usable dimensions for visualisations](#usable-dimensions-for-visualisations)  
 [Available Data](#available-data)  
-[Visualisation](#visualisation)  
+[Visualisations](#visualisations)  
 [Choices made](#choices-made)  
 [Presentation](#presentation)  
 
@@ -22,6 +22,8 @@ The main idea behind this project is to be able to show the user information abo
 
 To do so, we use a __nutrition index__. It's a value between A and E (better to worst, respectively) that is calculated to take account of the nutritional properties as well as the components of the product. The better the index, the better the food you're eating!
 
+Also, you'll be able to group by brand or by country, to see the proportions of the different nutrition indexes according to the chosen grouping. That way, you'll know which brand or which country tends to be better, from an alimentation quality standpoint.
+
 ## Available data
 The data presented to the user is a subset of the [Open Food Facts](#https://world.openfoodfacts.org) database.  
 We suppressed all records that were considered invalid or incomplete.  
@@ -31,10 +33,10 @@ Finally, we transformed the database format, from CSV to JSON.
 
 After all the database alterations, the file went from 1.8Gb to 29.2Mb!  
 
-## Usable dimensions for visualisation
-There are three main dimensions that are left to user choice: Country, make, and ranking.
+## Usable dimensions for visualisations
+There are three main dimensions that are left to user choice: Country, make, and nutrition index.
 
-## Visualisation
+## Visualisations
 The user will be presented with this interface:  
 
 ![Screen](mockups/sandwich%20closed.png)
@@ -42,11 +44,14 @@ The user will be presented with this interface:
 The main part of the screen is occupied by a Treemap visualisation.  
 It will display one of the three main dimensions. Each time the user selects one tile of the Treemap, the visualisation will change, as it will take the user's choice as a filter. It will then display another dimension to which the previously created filter has been applied. As there are three dimensions, the user will be able to go down three levels.  
 
-On the left portion of the screen, a menu, obeing to the so-called _hamburger pattern_, will allow the user to set manually  the three dimensions with a drop-down menu. It will also be able to select if the values displayed are finite quantities or percent. Also, there is a `Back` button at the top of the menu to enable the user to go back one level in its filters.
+On the left portion of the screen, a menu, obeing to the so-called _hamburger pattern_, will allow the user to set manually  the three dimensions with a drop-down menu. It will also be able to select if the values displayed are finite quantities or percent. The former will allow the option of the nutrition index visualized.
+Also, to ease the representation of the minorities and add flexibilty to the user, we added the possibility to specify a max of products per group, and the maximum of groups taken in account for the visualisation.
 
 ![Screen](mockups/sandwich%20opened.png)
 
-On the top of the screen, there is a banner indicating where the visualised data comes from, so the user can visit the source website and, if wanted, to collaborate on populating the database.
+On the top of the screen, there is a banner indicating where the visualised data comes from, so the user can visit the source website and, if wanted, collaborate on populating the database.
+
+The user is also able to change the visualisation to a bar chart. In certain situation, this kind of data representation will be more useful, as it ranks precisely the categories in descending order with their respective values. The treemap is more oriented towards a visualisation on the percentage of the sum of the values observed is represented by a given category.
 
 ## Choices made
 In order to succeed to have this visualisation not only ready, but also usable by end-users, we hade to make some choices:
