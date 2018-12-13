@@ -7,9 +7,9 @@ This is a team project required by the VI module in the context of the master at
 
 ## Index
 [Main idea and message](#main-idea-and-message)  
-[Usable dimensions for visualisation](#usable-dimensions-for-visualisation)
+[Usable dimensions for visualisations](#usable-dimensions-for-visualisations)  
 [Available Data](#available-data)  
-[Visualisation](#visualisation)  
+[Visualisations](#visualisations)  
 [Choices made](#choices-made)  
 [Presentation](#presentation)  
 
@@ -33,10 +33,10 @@ Finally, we transformed the database format, from CSV to JSON.
 
 After all the database alterations, the file went from 1.8Gb to 29.2Mb!  
 
-## Usable dimensions for visualisation
+## Usable dimensions for visualisations
 There are three main dimensions that are left to user choice: Country, make, and nutrition index.
 
-## Visualisation
+## Visualisations
 The user will be presented with this interface:  
 
 ![Screen](mockups/sandwich%20closed.png)
